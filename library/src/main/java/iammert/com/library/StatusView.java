@@ -188,29 +188,37 @@ public class StatusView extends RelativeLayout {
             handler.postDelayed(autoDismissOnComplete, DISMISS_ON_COMPLETE_DELAY);
     }
 
+    /**
+     * TODO: 设置状态提示文字
+     *
+     * @param succ
+     * @param error
+     * @param loading
+     */
     public void setStateText(String succ, String error, String loading) {
-        if (succTv != null && errorTv != null && loading != null) {
+        if (succTv != null && errorTv != null && loadTv != null) {
             succTv.setText(succ);
             errorTv.setText(error);
             loadTv.setText(loading);
         }
     }
 
-
-    public void setStatus(final Status status, String tips) {
-        if (currentStatus == Status.IDLE) {
-            currentStatus = status;
-            enterAnimation(getCurrentView(currentStatus));
-        } else if (status != Status.IDLE) {
-            switchAnimation(getCurrentView(currentStatus), getCurrentView(status));
-            currentStatus = status;
-        } else {
-            exitAnimation(getCurrentView(currentStatus));
+    public void setState2loading(String loading) {
+        if (loadTv != null) {
+            loadTv.setText(loading);
         }
+    }
 
-        handler.removeCallbacksAndMessages(null);
-        if (status == Status.COMPLETE)
-            handler.postDelayed(autoDismissOnComplete, DISMISS_ON_COMPLETE_DELAY);
+    public void setState2succ(String succ) {
+        if (succTv != null) {
+            succTv.setText(succ);
+        }
+    }
+
+    public void setState2error(String error) {
+        if (errorTv != null) {
+            errorTv.setText(error);
+        }
     }
 
     private View getCurrentView(Status status) {
