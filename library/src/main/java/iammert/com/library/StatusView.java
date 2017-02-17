@@ -68,6 +68,21 @@ public class StatusView extends RelativeLayout {
         }
     };
 
+    public StatusView(Context context) {
+        super(context);
+        init(context, null, 0, 0, 0);
+    }
+
+    public StatusView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs, 0, 0, 0);
+    }
+
+    public StatusView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init(context, attrs, 0, 0, 0);
+    }
+
     public StatusView(Context context, int completeLayout, int errorLayout, int loadingLayout) {
         super(context);
         init(context, null, completeLayout, errorLayout, loadingLayout);
@@ -106,9 +121,9 @@ public class StatusView extends RelativeLayout {
         /**
          * get status layout ids
          */
-        int completeLayoutId = a.getResourceId(R.styleable.statusview_complete, 0);
-        int errorLayoutId = a.getResourceId(R.styleable.statusview_error, 0);
-        int loadingLayoutId = a.getResourceId(R.styleable.statusview_loading, 0);
+        int completeLayoutId = a.getResourceId(R.styleable.statusview_complete, R.layout.sv_layout_complete);
+        int errorLayoutId = a.getResourceId(R.styleable.statusview_error, R.layout.sv_layout_error);
+        int loadingLayoutId = a.getResourceId(R.styleable.statusview_loading, R.layout.sv_layout_loading);
 
         hideOnComplete = a.getBoolean(R.styleable.statusview_dismissOnComplete, true);
 
@@ -119,13 +134,15 @@ public class StatusView extends RelativeLayout {
             completeView = inflater.inflate(completeLayoutId, null);
             errorView = inflater.inflate(errorLayoutId, null);
             loadingview = inflater.inflate(loadingLayoutId, null);
+            if (completeLayoutId == R.layout.sv_layout_complete) {
+                succTv = (TextView) completeView.findViewById(R.id.tv_succ);
+                errorTv = (TextView) errorView.findViewById(R.id.tv_error);
+                loadTv = (TextView) loadingview.findViewById(R.id.tv_loading);
+            }
         } else {
             completeView = inflater.inflate(completeLayout, null);
             errorView = inflater.inflate(errorLayout, null);
             loadingview = inflater.inflate(loadingLayout, null);
-            succTv = (TextView) completeView.findViewById(R.id.tv_succ);
-            errorTv = (TextView) errorView.findViewById(R.id.tv_error);
-            loadTv = (TextView) loadingview.findViewById(R.id.tv_loading);
         }
 
         /**
